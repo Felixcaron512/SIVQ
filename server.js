@@ -1,57 +1,73 @@
-// server.js
 import express from "express";
 import bodyParser from "body-parser";
-import pkg from "pg";
-import path from "path";
-import { fileURLToPath } from "url";
-
-const { Pool } = pkg;
-
-// ⚡ Connexion à PostgreSQL (avec ton URL Render)
-const pool = new Pool({
-  connectionString: "postgresql://sql_myvehicule_user:8VTeVVcF5DWEhmMDhK6cPS6FWBobA259@dpg-d2jn3nemcj7s7392mpe0-a/sql_myvehicule"
-});
+import { google } from "googleapis";
+import fs from "fs";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(bodyParser.json());
+app.use(express.static("public"));
 
-// ⚡ Résoudre __dirname (ESM)
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// ⚡ Servir ton HTML (dans un dossier "views")
-app.use(express.static(path.join(__dirname, "views")));
-
-// Exemple : récupérer tous les utilisateurs
-app.get("/api/users", async (req, res) => {
-  try {
-    const result = await pool.query("SELECT * FROM users");
-    res.json(result.rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Erreur serveur");
-  }
+// ======================
+// GOOGLE DRIVE SETUP
+// ======================
+const auth = new google.auth.GoogleAuth({
+  keyFile: "credentials.json",   // Ton fichier JSON téléchargé depuis Google Cloud
+  scopes: ["https://www.googleapis.com/auth/drive.file"],
 });
 
-// Exemple : ajouter un utilisateur
-app.post("/api/users", async (req, res) => {
-  const { name, email } = req.body;
+const drive = google.drive({ version: "v3", auth });
+
+// L’ID du fichier JSON dans Google Drive (après upload manuel une première fois)
+const FILE_ID = "TON_FILE_ID_ICI";
+
+// ======================
+// ROUTES
+// ======================
+
+// Lire la "base de données"
+app.get("/api/data", async (req, res) => {
   try {
-    const result = await pool.query(
-      "INSERT INTO users (name, email) VALUES ($1, $2) RETURNING *",
-      [name, email]
+    const result = await drive.files.get(
+      { fileId: FILE_ID, alt: "media" },
+      { responseType: "stream" }
     );
-    res.json(result.rows[0]);
+
+    let data = "";
+    result.data.on("data", chunk => (data += chunk));
+    result.data.on("end", () => {
+      res.json(JSON.parse(data));
+    });
   } catch (err) {
     console.error(err);
-    res.status(500).send("Erreur serveur");
+    res.status(500).send("Erreur lecture Google Drive");
   }
 });
 
-// ⚡ Lancer le serveur
+// Écrire (mettre à jour) la "base de données"
+app.post("/api/data", async (req, res) => {
+  try {
+    const newData = JSON.stringify(req.body, null, 2);
+
+    const media = {
+      mimeType: "application/json",
+      body: Buffer.from(newData),
+    };
+
+    await drive.files.update({
+      fileId: FILE_ID,
+      media,
+    });
+
+    res.send("Données mises à jour avec succès !");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Erreur écriture Google Drive");
+  }
+});
+
 app.listen(PORT, () => {
-  console.log(`🚀 Serveur en ligne sur http://localhost:${PORT}`);
+  console.log(`Serveur en ligne sur http://localhost:${PORT}`);
 });
