@@ -1,73 +1,74 @@
 import express from "express";
-import bodyParser from "body-parser";
-import { google } from "googleapis";
 import fs from "fs";
+import { google } from "googleapis";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(bodyParser.json());
-app.use(express.static("public"));
+// Middleware pour lire JSON
+app.use(express.json());
 
-// ======================
-// GOOGLE DRIVE SETUP
-// ======================
+// Servir ton HTML sans "public/"
+app.get("/", (req, res) => {
+  res.sendFile(process.cwd() + "/index.html");
+});
+
+app.get("/style.css", (req, res) => {
+  res.sendFile(process.cwd() + "/style.css");
+});
+
+app.get("/script.js", (req, res) => {
+  res.sendFile(process.cwd() + "/script.js");
+});
+
+// -------- Connexion Google Drive --------
 const auth = new google.auth.GoogleAuth({
-  keyFile: "credentials.json",   // Ton fichier JSON téléchargé depuis Google Cloud
+  keyFile: "credentials.json",  // Ton fichier d’API
   scopes: ["https://www.googleapis.com/auth/drive.file"],
 });
 
 const drive = google.drive({ version: "v3", auth });
 
-// L’ID du fichier JSON dans Google Drive (après upload manuel une première fois)
-const FILE_ID = "TON_FILE_ID_ICI";
-
-// ======================
-// ROUTES
-// ======================
-
-// Lire la "base de données"
+// Lire un fichier JSON depuis Drive
 app.get("/api/data", async (req, res) => {
   try {
+    const fileId = "TON_ID_DE_FICHIER_JSON";
     const result = await drive.files.get(
-      { fileId: FILE_ID, alt: "media" },
+      { fileId, alt: "media" },
       { responseType: "stream" }
     );
 
     let data = "";
-    result.data.on("data", chunk => (data += chunk));
+    result.data.on("data", (chunk) => (data += chunk));
     result.data.on("end", () => {
       res.json(JSON.parse(data));
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).send("Erreur lecture Google Drive");
+    res.status(500).send("Erreur Google Drive: " + err.message);
   }
 });
 
-// Écrire (mettre à jour) la "base de données"
+// Écrire/mettre à jour un fichier JSON sur Drive
 app.post("/api/data", async (req, res) => {
   try {
-    const newData = JSON.stringify(req.body, null, 2);
-
+    const fileId = "TON_ID_DE_FICHIER_JSON";
     const media = {
       mimeType: "application/json",
-      body: Buffer.from(newData),
+      body: JSON.stringify(req.body),
     };
 
     await drive.files.update({
-      fileId: FILE_ID,
+      fileId,
       media,
     });
 
-    res.send("Données mises à jour avec succès !");
+    res.send("Fichier mis à jour !");
   } catch (err) {
-    console.error(err);
-    res.status(500).send("Erreur écriture Google Drive");
+    res.status(500).send("Erreur mise à jour: " + err.message);
   }
 });
 
+// -------- Démarrer serveur --------
 app.listen(PORT, () => {
-  console.log(`Serveur en ligne sur http://localhost:${PORT}`);
+  console.log(`✅ Serveur en ligne sur http://localhost:${PORT}`);
 });
