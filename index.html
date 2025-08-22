@@ -1,25 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>SIVQ - Portail</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Bienvenue au portail SIVQ 🚗</h1>
-  <button onclick="chargerUtilisateurs()">Voir les utilisateurs</button>
-  <ul id="liste"></ul>
+  <h1>Bienvenue sur SIVQ</h1>
+
+  <button onclick="charger()">Charger mes données</button>
+  <button onclick="sauver()">Sauver des données</button>
+
+  <pre id="output"></pre>
 
   <script>
-    async function chargerUtilisateurs() {
-      const res = await fetch("/api/users");
+    async function charger() {
+      const res = await fetch("/api/data");
       const data = await res.json();
-      const ul = document.getElementById("liste");
-      ul.innerHTML = "";
-      data.forEach(u => {
-        const li = document.createElement("li");
-        li.textContent = `${u.name} - ${u.email}`;
-        ul.appendChild(li);
+      document.getElementById("output").innerText = JSON.stringify(data, null, 2);
+    }
+
+    async function sauver() {
+      const exemple = { user: "Jean", permis: "AB123456" };
+      await fetch("/api/data", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(exemple)
       });
+      alert("Sauvegarde réussie !");
     }
   </script>
 </body>
