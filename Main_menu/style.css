@@ -29,18 +29,14 @@ body, html {
   height: auto;
 }
 
-.footer-fixed {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #fff;
-    padding: 20px;
-    box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
-    font-size: 14px;
-    color: #555;
-    z-index: 999;
-}
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #ecf0f1;
+      color: #555;
+      font-size: 0.9em;
+      margin-top: 40px;
+    }
 
 /* From Uiverse.io by adamgiebl */ 
 button {
