@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Registre des erreurs</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f5f7fa;
+      margin: 0;
+      padding: 0;
+    }
+
+    .logo-container {
+      text-align: center;
+      padding: 30px 0 10px;
+    }
+
+    .logo-container img {
+      max-width: 120px;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      padding: 30px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    .error-entry {
+      border-left: 5px solid #e74c3c;
+      background-color: #ffe6e6;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 6px;
+      position: relative;
+    }
+
+    .error-code {
+      font-weight: bold;
+      font-size: 1.1em;
+      color: #c0392b;
+    }
+
+    .error-description {
+      margin-top: 5px;
+      color: #333;
+    }
+
+    .error-date {
+      font-size: 0.9em;
+      color: #777;
+      margin-top: 8px;
+    }
+
+    .severity {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      padding: 5px 10px;
+      border-radius: 12px;
+      font-size: 0.85em;
+      font-weight: bold;
+      color: white;
+    }
+
+    .critique { background-color: #e74c3c; }
+    .bloquante { background-color: #f39c12; }
+    .mineure { background-color: #3498db; }
+
+    .add-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px auto;
+      padding: 12px 24px;
+      background-color: #3498db;
+      color: white;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .add-button:hover {
+      background-color: #2980b9;
+    }
+
+    .arrow {
+      font-size: 1.5em;
+      animation: bounce 1.5s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+
+    .form-section {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.6s ease;
+    }
+
+    .form-section.open {
+      max-height: 600px;
+      margin-top: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    input, button[type="submit"] {
+      padding: 12px;
+      font-size: 1em;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button[type="submit"] {
+      background-color: #2ecc71;
+      color: white;
+      border: none;
+      transition: background-color 0.3s;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #27ae60;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #ecf0f1;
+      color: #555;
+      font-size: 0.9em;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logo-container">
+    <img src="logo.png" alt="Logo de l'application">
+  </div>
+
+  <div class="container">
+    <h2>📋 Registre des erreurs</h2>
+
+    <!-- Erreurs affichées ici -->
+    <div class="error-entry">
+      <div class="severity critique">Critique</div>
+      <div class="error-code">ERR001</div>
+      <div class="error-description">Une erreur est survenue pendant l’enregistrement du fichier sur Google Drive. Cela peut être dû à une perte de connexion, un accès refusé ou un problème de synchronisation.</div>
+      <div class="error-date">2025-10-01 09:15</div>
+    </div>
+
+    <div class="error-entry">
+      <div class="severity bloquante">Bloquante</div>
+      <div class="error-code">ERR002</div>
+      <div class="error-description">Le fichier 'credentials.json' est introuvable. Ce fichier est indispensable pour l’accès à Google Drive. Veuillez le placer dans le même dossier que l’application.</div>
+      <div class="error-date">2025-10-01 09:17</div>
+    </div>
+
+    <div class="error-entry">
+      <div class="severity bloquante">Bloquante</div>
+      <div class="error-code">ERR003</div>
+      <div class="error-description">Impossible d'ouvrir la page d'authentification. Vérifiez votre connexion Internet ou vos paramètres de pare-feu. Si le problème persiste, contactez le support technique.</div>
+      <div class="error-date">2025-10-01 09:17</div>
+    </div>
+
+    <div class="error-entry">
+  <div class="severity critique">Critique</div>
+  <div class="error-code">ERR009</div>
+  <div class="error-description">
+    Échec de la création du fichier d'identifiants. L'application ne peut pas continuer sans ce fichier essentiel. Vérifiez les permissions d'écriture ou l'espace disque disponible.
+  </div>
+  <div class="error-date">2025-10-01 09:50</div>
+</div>
+
+<div class="error-entry">
+  <div class="severity critique">Critique</div>
+  <div class="error-code">ERR010</div>
+  <div class="error-description">
+    Création annulée par l'utilisateur. Le fichier d'identifiants est indispensable au bon fonctionnement de l'application. Veuillez relancer le processus ou contacter le support.
+  </div>
+  <div class="error-date">2025-10-01 09:52</div>
+</div>
+
+<div class="error-entry">
+  <div class="severity bloquante">Bloquante</div>
+  <div class="error-code">ERR011</div>
+  <div class="error-description">
+    Échec de la création du fichier des personnages. Les modifications ne seront pas sauvegardées. Vérifiez les permissions du dossier ou l’espace disponible.
+  </div>
+  <div class="error-date">2025-10-01 09:55</div>
+</div>
+
+<div class="error-entry">
+  <div class="severity mineure">Mineure</div>
+  <div class="error-code">ERR012</div>
+  <div class="error-description">
+    Création annulée par l'utilisateur. Les données des personnages ne seront pas sauvegardées sur Google Drive. Aucune action n'est requise.
+  </div>
+  <div class="error-date">2025-10-01 09:57</div>
+</div>
+
+<div class="error-entry">
+  <div class="severity bloquante">Bloquante</div>
+  <div class="error-code">ERR013</div>
+  <div class="error-description">
+    Le contenu du fichier sur Drive est mal formaté (JSON invalide). L'application ne peut pas interpréter les données. Veuillez corriger le format ou remplacer le fichier.
+  </div>
+  <div class="error-date">2025-10-01 10:00</div>
+</div>
+
+<div class="error-entry">
+  <div class="severity critique">Critique</div>
+  <div class="error-code">ERR014</div>
+  <div class="error-description">
+    Impossible de charger les identifiants. L'application ne peut pas démarrer. Merci de contacter votre administrateur ou de vérifier les fichiers requis.
+  </div>
+  <div class="error-date">2025-10-01 10:05</div>
+</div>
+
+<div class="error-entry">
+  <div class="severity mineure">Mineure</div>
+  <div class="error-code">ERR015</div>
+  <div class="error-description">
+    Identifiants incorrects. Veuillez vérifier votre nom d'utilisateur et votre mot de passe, puis réessayer.
+  </div>
+  <div class="error-date">2025-10-01 10:10</div>
+</div>
+
+    <!-- Bouton pour ouvrir le formulaire -->
+    <button class="add-button" onclick="toggleForm()">
+      ➕ Ajouter une erreur <span class="arrow">↓</span>
+    </button>
+
+    <!-- Formulaire masqué -->
+    <div id="errorForm" class="form-section">
+      <form action="https://formsubmit.co/fromhelix409@icloud.com" method="POST">
+        <input type="text" name="Code d'erreur" placeholder="ERR009" required>
+        <input type="text" name="Description" placeholder="Description complète de l'erreur" required>
+        <input type="datetime-local" name="Date" required>
+        <select name="Gravité" required>
+          <option value="">Sélectionner la gravité</option>
+          <option value="Critique">Critique</option>
+          <option value="Bloquante">Bloquante</option>
+          <option value="Mineure">Mineure</option>
+        </select>
+
+        <input type="hidden" name="_next" value="https://tonsite.com/merci.html">
+        <input type="hidden" name="_captcha" value="false">
+
+        <button type="submit">📨 Envoyer</button>
+      </form>
+    </div>
+  </div>
+
+  <button class="add-button" onclick="window.location.href='https://1657.3cx.cloud/callus/#sivq'">
+  🔗 Contacter un support
+  </button>
+
+  <footer>
+    &copy; 2025 SIVQ (ERR Registre) — Tous droits réservés. | Conçu par Félix Caron
+  </footer>
+
+  <script>
+    function toggleForm() {
+      const formSection = document.getElementById("errorForm");
+      formSection.classList.toggle("open");
+    }
+  </script>
+
+</body>
+</html>
