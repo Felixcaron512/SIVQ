@@ -95,9 +95,4 @@ export default function Layout({ children, currentPageName }) {
 
           <div className="flex-1 overflow-auto">
             {children}
-          </div>
-        </main>
-      </div>
-    </SidebarProvider>
-  );
-}
+ 
