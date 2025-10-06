@@ -2,293 +2,206 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Registre des erreurs</title>
-  <link rel="icon" href="Elements/SIVQ.png" type="image/x-icon">
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f5f7fa;
-      margin: 0;
-      padding: 0;
-    }
-
-    .logo-container {
-      text-align: center;
-      padding: 30px 0 10px;
-    }
-
-    .logo-container img {
-      max-width: 120px;
-      height: auto;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
-    .container {
-      max-width: 900px;
-      margin: auto;
-      background-color: #fff;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      padding: 30px;
-    }
-
-    h2 {
-      text-align: center;
-      color: #2c3e50;
-    }
-
-    .error-entry {
-      border-left: 5px solid #e74c3c;
-      background-color: #ffe6e6;
-      padding: 15px;
-      margin-bottom: 20px;
-      border-radius: 6px;
-      position: relative;
-    }
-
-    .error-code {
-      font-weight: bold;
-      font-size: 1.1em;
-      color: #c0392b;
-    }
-
-    .error-description {
-      margin-top: 5px;
-      color: #333;
-    }
-
-    .error-date {
-      font-size: 0.9em;
-      color: #777;
-      margin-top: 8px;
-    }
-
-    .severity {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      padding: 5px 10px;
-      border-radius: 12px;
-      font-size: 0.85em;
-      font-weight: bold;
-      color: white;
-    }
-
-    .critique { background-color: #e74c3c; }
-    .bloquante { background-color: #f39c12; }
-    .mineure { background-color: #3498db; }
-
-    .add-button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin: 30px auto;
-      padding: 12px 24px;
-      background-color: #3498db;
-      color: white;
-      font-size: 1em;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .add-button:hover {
-      background-color: #2980b9;
-    }
-
-    .arrow {
-      font-size: 1.5em;
-      animation: bounce 1.5s infinite;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(6px); }
-    }
-
-    .form-section {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.6s ease;
-    }
-
-    .form-section.open {
-      max-height: 600px;
-      margin-top: 20px;
-    }
-
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      margin-top: 20px;
-    }
-
-    input, button[type="submit"] {
-      padding: 12px;
-      font-size: 1em;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
-
-    button[type="submit"] {
-      background-color: #2ecc71;
-      color: white;
-      border: none;
-      transition: background-color 0.3s;
-    }
-
-    button[type="submit"]:hover {
-      background-color: #27ae60;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      background-color: #ecf0f1;
-      color: #555;
-      font-size: 0.9em;
-      margin-top: 40px;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📋 Registre des erreurs - SIVQ Portail +</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="icon" href="https://i.imgur.com/06jbFPA_d.webp" />
 </head>
-<body>
+<body class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-red-50 flex flex-col">
 
-  <div class="logo-container">
-    <img src="https://i.imgur.com/06jbFPA_d.webp?maxwidth=760&fidelity=grand" alt="Logo SIVQ" />
-  </div>
-
-  <div class="container">
-    <h2>📋 Registre des erreurs</h2>
-
-    <!-- Erreurs affichées ici -->
-    <div class="error-entry">
-      <div class="severity critique">Critique</div>
-      <div class="error-code">ERR001</div>
-      <div class="error-description">Une erreur est survenue pendant l’enregistrement du fichier sur Google Drive. Cela peut être dû à une perte de connexion, un accès refusé ou un problème de synchronisation.</div>
-      <div class="error-date">2025-10-01 09:15</div>
+  <!-- Header -->
+  <header class="relative overflow-hidden bg-gradient-to-br from-red-600 via-orange-600 to-red-700">
+    <div class="absolute inset-0 opacity-20 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMzLjMxNCAwIDYgMi42ODYgNiA2cy0yLjY4NiA2LTYgNi02LTIuNjg2LTYtNiAyLjY4Ni02IDYtNnptMCA0MmMzLjMxNCAwIDYgMi42ODYgNiA2cy0yLjY4NiA2LTYgNi02LTIuNjg2LTYtNiAyLjY4Ni02IDYtNnpNMCAyNGMzLjMxNCAwIDYgMi42ODYgNiA2cy0yLjY4NiA2LTYgNi02LTIuNjg2LTYtNiAyLjY4Ni02IDYtNnoiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLW9wYWNpdHk9Ii4xIi8+PC9nPjwvc3ZnPg==')"></div>
+    <div class="relative max-w-7xl mx-auto px-4 py-16 text-center text-white">
+      <div class="flex justify-center mb-6">
+        <div class="relative">
+          <div class="absolute inset-0 bg-white/20 blur-2xl rounded-full"></div>
+          <img src="https://i.imgur.com/06jbFPA_d.webp" alt="Logo SIVQ" class="relative h-20 w-20 object-contain">
+        </div>
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-bold mb-4">📋 Registre des erreurs</h1>
+      <p class="text-xl text-red-100 max-w-2xl mx-auto">
+        Consultez et signalez les erreurs de l'application SIVQ Portail +
+      </p>
     </div>
+  </header>
 
-    <div class="error-entry">
-      <div class="severity bloquante">Bloquante</div>
-      <div class="error-code">ERR002</div>
-      <div class="error-description">Le fichier 'credentials.json' est introuvable. Ce fichier est indispensable pour l’accès à Google Drive. Veuillez le placer dans le même dossier que l’application.</div>
-      <div class="error-date">2025-10-01 09:17</div>
+  <!-- Stats Section -->
+  <section class="max-w-7xl mx-auto px-4 -mt-8 mb-12 grid grid-cols-1 sm:grid-cols-3 gap-4" id="stats"></section>
+
+  <!-- Filters -->
+  <section class="max-w-7xl mx-auto px-4 mb-8">
+    <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col sm:flex-row gap-4 items-center">
+      <div class="flex-1 relative w-full">
+        <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+        <input id="searchInput" type="text" placeholder="Rechercher par code ou description..." class="w-full pl-10 border rounded-lg p-2 focus:ring-2 focus:ring-red-400">
+      </div>
+      <select id="filterSelect" class="border rounded-lg p-2 focus:ring-2 focus:ring-red-400">
+        <option value="all">Toutes</option>
+        <option value="Critique">Critique</option>
+        <option value="Bloquante">Bloquante</option>
+        <option value="Mineure">Mineure</option>
+      </select>
+      <button onclick="openForm()" class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-indigo-700 flex items-center gap-2">
+        <i data-lucide="plus"></i> Ajouter
+      </button>
     </div>
+  </section>
 
-    <div class="error-entry">
-      <div class="severity bloquante">Bloquante</div>
-      <div class="error-code">ERR003</div>
-      <div class="error-description">Impossible d'ouvrir la page d'authentification. Vérifiez votre connexion Internet ou vos paramètres de pare-feu. Si le problème persiste, contactez le support technique.</div>
-      <div class="error-date">2025-10-01 09:17</div>
-    </div>
+  <!-- Liste des erreurs -->
+  <section class="max-w-7xl mx-auto px-4 pb-20 space-y-4" id="errorList"></section>
 
-    <div class="error-entry">
-  <div class="severity critique">Critique</div>
-  <div class="error-code">ERR004</div>
-  <div class="error-description">
-    Échec de la création du fichier d'identifiants. L'application ne peut pas continuer sans ce fichier essentiel. Vérifiez les permissions d'écriture ou l'espace disque disponible.
-  </div>
-  <div class="error-date">2025-10-01 09:50</div>
-</div>
-
-<div class="error-entry">
-  <div class="severity critique">Critique</div>
-  <div class="error-code">ERR005</div>
-  <div class="error-description">
-    Création annulée par l'utilisateur. Le fichier d'identifiants est indispensable au bon fonctionnement de l'application. Veuillez relancer le processus ou contacter le support.
-  </div>
-  <div class="error-date">2025-10-01 09:52</div>
-</div>
-
-<div class="error-entry">
-  <div class="severity bloquante">Bloquante</div>
-  <div class="error-code">ERR006</div>
-  <div class="error-description">
-    Échec de la création du fichier des personnages. Les modifications ne seront pas sauvegardées. Vérifiez les permissions du dossier ou l’espace disponible.
-  </div>
-  <div class="error-date">2025-10-01 09:55</div>
-</div>
-
-<div class="error-entry">
-  <div class="severity mineure">Mineure</div>
-  <div class="error-code">ERR007</div>
-  <div class="error-description">
-    Création annulée par l'utilisateur. Les données des personnages ne seront pas sauvegardées sur Google Drive. Aucune action n'est requise.
-  </div>
-  <div class="error-date">2025-10-01 09:57</div>
-</div>
-
-<div class="error-entry">
-  <div class="severity bloquante">Bloquante</div>
-  <div class="error-code">ERR008</div>
-  <div class="error-description">
-    Le contenu du fichier sur Drive est mal formaté (JSON invalide). L'application ne peut pas interpréter les données. Veuillez corriger le format ou remplacer le fichier.
-  </div>
-  <div class="error-date">2025-10-01 10:00</div>
-</div>
-
-<div class="error-entry">
-  <div class="severity critique">Critique</div>
-  <div class="error-code">ERR009</div>
-  <div class="error-description">
-    Impossible de charger les identifiants. L'application ne peut pas démarrer. Merci de contacter votre administrateur ou de vérifier les fichiers requis.
-  </div>
-  <div class="error-date">2025-10-01 10:05</div>
-</div>
-
-<div class="error-entry">
-  <div class="severity mineure">Mineure</div>
-  <div class="error-code">ERR010</div>
-  <div class="error-description">
-    Identifiants incorrects. Veuillez vérifier votre nom d'utilisateur et votre mot de passe, puis réessayer.
-  </div>
-  <div class="error-date">2025-10-01 10:10</div>
-</div>
-
-    <!-- Bouton pour ouvrir le formulaire -->
-    <button class="add-button" onclick="toggleForm()">
-      ➕ Ajouter une erreur <span class="arrow">↓</span>
-    </button>
-
-    <!-- Formulaire masqué -->
-    <div id="errorForm" class="form-section">
-      <form action="https://formsubmit.co/fromhelix409@icloud.com" method="POST">
-        <input type="text" name="Code d'erreur" placeholder="ERR009" required>
-        <input type="text" name="Description" placeholder="Description complète de l'erreur" required>
-        <input type="datetime-local" name="Date" required>
-        <select name="Gravité" required>
-          <option value="">Sélectionner la gravité</option>
-          <option value="Critique">Critique</option>
-          <option value="Bloquante">Bloquante</option>
-          <option value="Mineure">Mineure</option>
-        </select>
-
-        <input type="hidden" name="_next" value="https://tonsite.com/merci.html">
+  <!-- Formulaire Modal -->
+  <div id="formModal" class="fixed inset-0 bg-black/50 hidden justify-center items-center z-50">
+    <div class="bg-white rounded-xl p-6 w-full max-w-lg shadow-xl">
+      <h2 class="text-xl font-semibold mb-2">Signaler une nouvelle erreur</h2>
+      <p class="text-sm text-gray-500 mb-4">Remplissez les informations ci-dessous pour signaler une erreur</p>
+      <form id="errorForm" action="https://formsubmit.co/fromhelix409@icloud.com" method="POST" class="space-y-4">
         <input type="hidden" name="_captcha" value="false">
-
-        <button type="submit">📨 Envoyer</button>
+        <div>
+          <label class="block mb-1 font-medium">Code d'erreur</label>
+          <input name="Code d'erreur" required class="border rounded-lg w-full p-2" placeholder="ERR029">
+        </div>
+        <div>
+          <label class="block mb-1 font-medium">Description</label>
+          <textarea name="Description" required rows="4" class="border rounded-lg w-full p-2" placeholder="Description complète de l'erreur..."></textarea>
+        </div>
+        <div>
+          <label class="block mb-1 font-medium">Gravité</label>
+          <select name="Gravité" required class="border rounded-lg w-full p-2">
+            <option value="">Sélectionner</option>
+            <option value="Critique">Critique</option>
+            <option value="Bloquante">Bloquante</option>
+            <option value="Mineure">Mineure</option>
+          </select>
+        </div>
+        <div>
+          <label class="block mb-1 font-medium">Date et heure</label>
+          <input type="datetime-local" name="Date" required class="border rounded-lg w-full p-2">
+        </div>
+        <div class="flex justify-end gap-3 pt-4">
+          <button type="button" onclick="closeForm()" class="border px-4 py-2 rounded-lg">Annuler</button>
+          <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">📨 Envoyer</button>
+        </div>
       </form>
     </div>
   </div>
 
-<call-us-selector phonesystem-url="https://1657.3cx.cloud" party="sivq"></call-us-selector>
-<script defer src="https://downloads-global.3cx.com/downloads/livechatandtalk/v1/callus.js" id="tcx-callus-js" charset="utf-8"></script>
-
-  <footer>
-    &copy; 2025 SIVQ (ERR Registre) — Tous droits réservés. | Conçu par Félix Caron
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-white py-8 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+      <p class="text-slate-400 text-sm">© 2025 SIVQ (ERR Registre) — Tous droits réservés.</p>
+      <p class="text-slate-400 text-sm">Conçu par <span class="text-red-400 font-medium">Félix Caron</span></p>
+    </div>
   </footer>
 
   <script>
-    function toggleForm() {
-      const formSection = document.getElementById("errorForm");
-      formSection.classList.toggle("open");
+    // Données d'erreurs
+    const errors = [
+      {code:"ERR001",description:"Une erreur est survenue pendant l'enregistrement du fichier sur Google Drive.",severity:"Critique",date:"2025-10-01 09:15"},
+      {code:"ERR002",description:"Le fichier 'credentials.json' est introuvable.",severity:"Bloquante",date:"2025-10-01 09:17"},
+      {code:"ERR003",description:"Impossible d'ouvrir la page d'authentification.",severity:"Bloquante",date:"2025-10-01 09:17"},
+      {code:"ERR004",description:"Échec de la création du fichier d'identifiants.",severity:"Critique",date:"2025-10-01 09:50"},
+      {code:"ERR005",description:"Création annulée par l'utilisateur.",severity:"Critique",date:"2025-10-01 09:52"},
+      {code:"ERR006",description:"Échec de la création du fichier des personnages.",severity:"Bloquante",date:"2025-10-01 09:55"},
+      {code:"ERR007",description:"Création annulée par l'utilisateur (Mineure).",severity:"Mineure",date:"2025-10-01 09:57"},
+      {code:"ERR008",description:"Le contenu du fichier sur Drive est mal formaté (JSON invalide).",severity:"Bloquante",date:"2025-10-01 10:00"},
+      {code:"ERR009",description:"Impossible de charger les identifiants.",severity:"Critique",date:"2025-10-01 10:05"},
+      {code:"ERR010",description:"Identifiants incorrects.",severity:"Mineure",date:"2025-10-01 10:10"},
+      {code:"ERR029",description:"Erreur de connexion au serveur SIVQ Portail +.",severity:"Bloquante",date:"2025-10-15 14:30"}
+    ];
+
+    const severities = {
+      "Critique": {color:"from-red-500 to-red-600", border:"border-red-500", icon:"x-circle"},
+      "Bloquante": {color:"from-orange-500 to-orange-600", border:"border-orange-500", icon:"alert-triangle"},
+      "Mineure": {color:"from-blue-500 to-blue-600", border:"border-blue-500", icon:"info"}
+    };
+
+    const list = document.getElementById("errorList");
+    const stats = document.getElementById("stats");
+
+    function renderStats() {
+      const counts = {Critique:0, Bloquante:0, Mineure:0};
+      errors.forEach(e=>counts[e.severity]++);
+      stats.innerHTML = Object.entries(counts).map(([s,c])=>{
+        const cfg = severities[s];
+        return `
+          <div class="bg-white rounded-2xl shadow-lg p-6 border-2">
+            <div class="flex justify-between items-center">
+              <div>
+                <p class="text-sm text-slate-600 mb-1">${s}</p>
+                <p class="text-3xl font-bold">${c}</p>
+              </div>
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br ${cfg.color} flex items-center justify-center shadow-lg">
+                <i data-lucide="${cfg.icon}" class="text-white w-6 h-6"></i>
+              </div>
+            </div>
+          </div>`;
+      }).join("");
+      lucide.createIcons();
     }
+
+    function renderErrors() {
+      const search = document.getElementById("searchInput").value.toLowerCase();
+      const filter = document.getElementById("filterSelect").value;
+      const filtered = errors.filter(e =>
+        (filter === "all" || e.severity === filter) &&
+        (e.code.toLowerCase().includes(search) || e.description.toLowerCase().includes(search))
+      );
+      if (filtered.length === 0) {
+        list.innerHTML = `<div class='text-center py-16 text-slate-500'>
+          <i data-lucide="alert-circle" class="w-16 h-16 mx-auto mb-4"></i>
+          <p class="text-xl">Aucune erreur trouvée</p></div>`;
+      } else {
+        list.innerHTML = filtered.map(e=>{
+          const cfg = severities[e.severity];
+          return `
+          <div class="bg-white rounded-xl shadow-md border-l-4 ${cfg.border} transition-all hover:shadow-lg">
+            <div class="p-6">
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                <div>
+                  <div class="flex items-center gap-3 mb-3">
+                    <div class="w-10 h-10 rounded-lg bg-gradient-to-br ${cfg.color} flex items-center justify-center">
+                      <i data-lucide="${cfg.icon}" class="text-white w-5 h-5"></i>
+                    </div>
+                    <div>
+                      <h3 class="text-xl font-bold">${e.code}</h3>
+                      <span class="inline-block text-white text-sm px-2 py-1 rounded bg-gradient-to-r ${cfg.color}">${e.severity}</span>
+                    </div>
+                  </div>
+                  <p class="text-slate-700 mb-3">${e.description}</p>
+                  <div class="flex items-center text-sm text-slate-500">
+                    <i data-lucide="calendar" class="w-4 h-4 mr-1"></i>${e.date}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>`;
+        }).join("");
+      }
+      lucide.createIcons();
+    }
+
+    function openForm(){ document.getElementById("formModal").classList.remove("hidden","opacity-0"); document.getElementById("formModal").classList.add("flex"); }
+    function closeForm(){ document.getElementById("formModal").classList.add("hidden"); }
+
+    document.getElementById("searchInput").addEventListener("input", renderErrors);
+    document.getElementById("filterSelect").addEventListener("change", renderErrors);
+
+    renderStats();
+    renderErrors();
+    lucide.createIcons();
+
+    // Charger le widget 3CX
+    const script = document.createElement('script');
+    script.src = 'https://downloads-global.3cx.com/downloads/livechatandtalk/v1/callus.js';
+    script.defer = true;
+    document.body.appendChild(script);
+    const callUsSelector = document.createElement('call-us-selector');
+    callUsSelector.setAttribute('phonesystem-url', 'https://1657.3cx.cloud');
+    callUsSelector.setAttribute('party', 'sivq');
+    document.body.appendChild(callUsSelector);
   </script>
-
 </body>
-
 </html>
